@@ -22,7 +22,7 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // Icons
+        // Icons (mesmos do código anterior, mas otimizados)
         const Icon = ({ name, className = "w-5 h-5" }) => {
             const icons = {
                 settings: "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z",
@@ -85,6 +85,7 @@
             const [showPreview, setShowPreview] = useState(false);
             const [previewContent, setPreviewContent] = useState('');
             
+            // SSH Form
             const [newSSH, setNewSSH] = useState({ name: '', host: '', port: '22', username: '', password: '' });
 
             useEffect(() => {
@@ -228,6 +229,7 @@
 
             return (
                 <div className="h-screen w-full bg-[#1e1e1e] flex flex-col text-white">
+                    {/* Header */}
                     <div className="h-12 bg-[#2d2d30] border-b border-[#3e3e42] flex items-center justify-between px-4">
                         <div className="flex items-center gap-2">
                             <Icon name="sparkles" className="text-blue-400" />
@@ -248,13 +250,16 @@
                         </div>
                     </div>
 
+                    {/* Content */}
                     {view === 'editor' ? (
                         <div className="flex-1 flex overflow-hidden">
+                            {/* Sidebar */}
                             <div className="w-64 bg-[#252526] border-r border-[#3e3e42]">
                                 <div className="h-10 bg-[#2d2d30] border-b border-[#3e3e42] px-3 flex items-center text-xs font-semibold text-gray-300">EXPLORADOR</div>
                                 <div className="overflow-y-auto scrollbar"><FileTree item={fileSystem} level={0} /></div>
                             </div>
 
+                            {/* Editor */}
                             <div className="flex-1 flex flex-col">
                                 <div className="h-10 bg-[#252526] border-b border-[#3e3e42] flex overflow-x-auto scrollbar">
                                     {openTabs.map(tab => (
@@ -281,6 +286,7 @@
                                 )}
                             </div>
 
+                            {/* Chat */}
                             <div className="w-96 bg-[#252526] border-l border-[#3e3e42] flex flex-col">
                                 <div className="h-10 bg-[#2d2d30] border-b border-[#3e3e42] px-4 flex items-center">
                                     <Icon name="message" className="w-4 h-4 mr-2" />
@@ -320,6 +326,7 @@
                             </div>
                         </div>
                     ) : (
+                        // Admin Panel
                         <div className="flex-1 overflow-y-auto scrollbar p-6 bg-[#1e1e1e]">
                             <div className="max-w-4xl mx-auto space-y-6">
                                 <div className="flex items-center justify-between mb-8">
@@ -329,6 +336,7 @@
                                     </button>
                                 </div>
 
+                                {/* API Keys */}
                                 <div className="bg-[#252526] rounded-lg p-6 border border-[#3e3e42]">
                                     <div className="flex items-center gap-3 mb-4"><Icon name="key" className="text-blue-400" /><h2 className="text-xl font-semibold">API Keys</h2></div>
                                     <div className="space-y-4">
@@ -360,6 +368,7 @@
                                     </div>
                                 </div>
 
+                                {/* SSH */}
                                 <div className="bg-[#252526] rounded-lg p-6 border border-[#3e3e42]">
                                     <div className="flex items-center gap-3 mb-4"><Icon name="server" className="text-green-400" /><h2 className="text-xl font-semibold">SSH / VPS</h2></div>
                                     <div className="space-y-3 mb-6">
@@ -403,6 +412,7 @@
                         </div>
                     )}
 
+                    {/* Status Bar */}
                     <div className="h-6 bg-blue-600 flex items-center justify-between px-4 text-xs">
                         <div className="flex items-center gap-4">
                             {activeTab && <><span>📁 {getActiveFile()?.name}</span><span>Linhas: {getActiveFile()?.content.split('\n').length}</span></>}
@@ -413,6 +423,7 @@
                         </div>
                     </div>
 
+                    {/* Preview Modal */}
                     {showPreview && (
                         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
                             <div className="bg-white rounded-lg w-full max-w-6xl h-5/6 flex flex-col">
@@ -425,6 +436,7 @@
                         </div>
                     )}
 
+                    {/* Notification */}
                     {notification && (
                         <div className={`fixed bottom-6 right-6 px-6 py-4 rounded-lg shadow-2xl flex items-center gap-3 ${notification.type === 'success' ? 'bg-green-600' : notification.type === 'error' ? 'bg-red-600' : 'bg-blue-600'}`}>
                             <Icon name={notification.type === 'success' ? 'check' : 'alert'} />
